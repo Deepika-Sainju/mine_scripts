@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MedicalRecord patientId="MRN-A000-000402">
+  <Patient>
+    <Name>James R Williams</Name>
+    <DateOfBirth>11/02/1990</DateOfBirth>
+    <Gender>M</Gender>
+    <Contact>
+      <Email>james.williams@example.com</Email>
+      <Phone>(206) 555-0166</Phone>
+      <Address>45 Cedar Road, Seattle, WA 98101</Address>
+    </Contact>
+    <SSN>401-55-7788</SSN>
+  </Patient>
+  <Encounter date="2025-06-30">
+    <Provider>Dr. Kevin Nguyen</Provider>
+    <Note>ESRD workup for James Williams at 45 Cedar Road, Seattle, WA 98101.</Note>
+  </Encounter>
+  <Diagnoses primaryCode="N186">
+    <Diagnosis code="N186" codeType="ICD-10-CM" rank="1">End stage renal disease</Diagnosis>
+    <Diagnosis code="N179" codeType="ICD-10-CM" rank="2">Acute kidney failure, unspecified</Diagnosis>
+  </Diagnoses>
+</MedicalRecord>

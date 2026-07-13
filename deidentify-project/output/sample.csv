@@ -1,0 +1,4 @@
+patient_id,full_name,dob,email,phone,ssn,mrn,address,notes
+Lake Stephenville,Jamie Arnold,2016-10-13,kendragalloway@example.org,+1-528-232-7648x350,275-09-3457,[MEDICAL_RECORD_NUMBER_00002],"42 Wilkersonmouth, Jasonfort CA 2021-07-04",Patient reports allergy. Spoke with husband Zachary Hicks at (842)738-8496.
+[MEDICAL_RECORD_NUMBER_00003],Anthony Rodriguez,2005-05-23,ycarlson@example.com,+1-878-448-0184x514,465-01-4316,[MEDICAL_RECORD_NUMBER_00004],"88 Meaganhaven, New Rita CA 94601",Referred by Dr. Brittany Farmer.
+[MEDICAL_RECORD_NUMBER_00005],Paula Moreno,1970-01-12,tracy15@example.com,403.491.1718,676-61-9008,[MEDICAL_RECORD_NUMBER_00006],"15 West Allison, Berkeley CA 94703",

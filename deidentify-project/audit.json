@@ -1,0 +1,20 @@
+{
+  "started": "2026-06-19T07:42:56.699913+00:00",
+  "files": [
+    {
+      "timestamp": "2026-06-19T07:43:02.125039+00:00",
+      "input": "samples/member.csv",
+      "output": null,
+      "status": "ok",
+      "error": null,
+      "format": "csv",
+      "entity_counts": {
+        "UK_NHS": 200,
+        "DATE_TIME": 500,
+        "PERSON": 200,
+        "PHONE_NUMBER": 1
+      },
+      "finding_count": 901
+    }
+  ]
+}

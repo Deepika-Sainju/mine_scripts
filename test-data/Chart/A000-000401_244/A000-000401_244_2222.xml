@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MedicalRecord patientId="MRN-A000-000401">
+  <Patient>
+    <Name>Robert Lee Johnson</Name>
+    <DateOfBirth>03/15/1978</DateOfBirth>
+    <Gender>M</Gender>
+    <Contact>
+      <Email>robert.johnson@example.com</Email>
+      <Phone>(415) 555-0187</Phone>
+      <Address>88 Pine Street, San Francisco, CA 94102</Address>
+    </Contact>
+    <SSN>512-33-8890</SSN>
+  </Patient>
+  <Encounter date="2025-08-05">
+    <Provider>Dr. Sarah Anderson</Provider>
+    <Note>Follow-up visit. Records mailed to 88 Pine Street, San Francisco, CA 94102.</Note>
+  </Encounter>
+  <Diagnoses primaryCode="C7800">
+    <Diagnosis code="C7800" codeType="ICD-10-CM" rank="1">Secondary malignant neoplasm of unspecified lung</Diagnosis>
+    <Diagnosis code="C3490" codeType="ICD-10-CM" rank="2">Malignant neoplasm of unspecified part of unspecified bronchus or lung</Diagnosis>
+  </Diagnoses>
+</MedicalRecord>

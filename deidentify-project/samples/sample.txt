@@ -1,0 +1,20 @@
+Discharge Summary - Confidential
+
+Patient: John Anderson
+DOB: 1972-04-18
+Address: 1234 Elm Street, Boston, MA 02115
+Phone: (617) 555-0142
+Email: j.anderson@example.com
+SSN: 123-45-6789
+MRN: 8842917
+Insurance Member ID: BCBS-44218-A
+
+Mr. Anderson was admitted on 2024-09-12 under the care of Dr. Sarah Chen.
+He resides in Boston and his emergency contact is his wife, Mary Anderson,
+reachable at (617) 555-0199.
+
+Credit card on file (for billing): 4532-1488-0343-6467
+Bank account: 000123456789
+
+Follow-up scheduled with Dr. Chen on 2024-10-03. Records sent to
+referring physician at referrals@bostonmedical.example.org.

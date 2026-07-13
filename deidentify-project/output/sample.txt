@@ -1,0 +1,19 @@
+Discharge Summary - Confidential
+
+Patient: Savannah Garcia: 2008-11-29
+Address: 1234 Elm Street, North Micheleland, Lake Crystalbury 02115
+Phone: 587.213.3150x983
+Email: pcarney@example.com
+SSN: 123-45-6789
+[MEDICAL_RECORD_NUMBER_00007]
+Insurance [HEALTH_PLAN_NUMBER_00002]
+
+Mr. Shannon Jones was admitted on 1980-05-08 under the care of Dr. Diana Washington.
+He resides in North Micheleland and his emergency contact is his wife, Miranda Khan,
+reachable at 401.806.5133x387.
+
+Credit card on file (for billing): 4532-1488-0343-6467
+Bank [ACCOUNT_NUMBER_00002]
+
+Follow-up scheduled with Dr. Jeffrey Henderson on 1980-09-27. Records sent to
+referring physician at esanchez@example.com.

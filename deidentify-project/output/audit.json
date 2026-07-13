@@ -1,0 +1,105 @@
+{
+  "started": "2026-05-29T08:24:53.012737+00:00",
+  "files": [
+    {
+      "timestamp": "2026-05-29T08:24:54.763252+00:00",
+      "input": "samples/cptfile10.pdf",
+      "output": "output/cptfile10.pdf",
+      "status": "ok",
+      "error": null,
+      "format": "pdf",
+      "entity_counts": {
+        "PERSON": 1
+      },
+      "finding_count": 1
+    },
+    {
+      "timestamp": "2026-05-29T08:24:56.485093+00:00",
+      "input": "samples/dpsy.pdf",
+      "output": "output/dpsy.pdf",
+      "status": "ok",
+      "error": null,
+      "format": "pdf",
+      "entity_counts": {
+        "PERSON": 29,
+        "DATE_TIME": 53
+      },
+      "finding_count": 82
+    },
+    {
+      "timestamp": "2026-05-29T08:24:56.738008+00:00",
+      "input": "samples/sample.csv",
+      "output": "output/sample.csv",
+      "status": "ok",
+      "error": null,
+      "format": "csv",
+      "entity_counts": {
+        "LOCATION": 6,
+        "PERSON": 6,
+        "DATE_TIME": 4,
+        "EMAIL_ADDRESS": 3,
+        "URL": 3,
+        "PHONE_NUMBER": 4,
+        "US_SSN": 3,
+        "MEDICAL_RECORD_NUMBER": 5
+      },
+      "finding_count": 34
+    },
+    {
+      "timestamp": "2026-05-29T08:24:56.893379+00:00",
+      "input": "samples/sample.json",
+      "output": "output/sample.json",
+      "status": "ok",
+      "error": null,
+      "format": "json",
+      "entity_counts": {
+        "DATE_TIME": 5,
+        "PERSON": 4,
+        "EMAIL_ADDRESS": 1,
+        "URL": 2,
+        "PHONE_NUMBER": 1,
+        "LOCATION": 2
+      },
+      "finding_count": 15
+    },
+    {
+      "timestamp": "2026-05-29T08:24:57.020589+00:00",
+      "input": "samples/sample.txt",
+      "output": "output/sample.txt",
+      "status": "ok",
+      "error": null,
+      "format": "text",
+      "entity_counts": {
+        "EMAIL_ADDRESS": 2,
+        "MEDICAL_RECORD_NUMBER": 1,
+        "HEALTH_PLAN_NUMBER": 1,
+        "ACCOUNT_NUMBER": 1,
+        "PERSON": 5,
+        "DATE_TIME": 5,
+        "LOCATION": 3,
+        "PHONE_NUMBER": 2,
+        "URL": 3,
+        "US_BANK_NUMBER": 1
+      },
+      "finding_count": 24
+    },
+    {
+      "timestamp": "2026-05-29T08:24:57.196243+00:00",
+      "input": "samples/sample.xml",
+      "output": "output/sample.xml",
+      "status": "ok",
+      "error": null,
+      "format": "xml",
+      "entity_counts": {
+        "MEDICAL_RECORD_NUMBER": 1,
+        "PERSON": 3,
+        "DATE_TIME": 3,
+        "EMAIL_ADDRESS": 1,
+        "URL": 2,
+        "PHONE_NUMBER": 2,
+        "LOCATION": 2
+      },
+      "finding_count": 14
+    }
+  ]
+}

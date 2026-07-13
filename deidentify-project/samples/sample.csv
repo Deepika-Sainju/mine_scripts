@@ -1,0 +1,4 @@
+patient_id,full_name,dob,email,phone,ssn,mrn,address,notes
+P001,Alice Johnson,1985-03-22,alice.j@example.com,(415) 555-0101,234-56-7890,MRN8842917,"42 Maple Ave, San Francisco CA 94110","Patient reports allergy. Spoke with husband Bob Johnson at (415) 555-0102."
+P002,Robert Lee,1990-11-04,r.lee@example.com,(415) 555-0103,345-67-8901,MRN9913008,"88 Oak St, Oakland CA 94601","Referred by Dr. Linda Wu."
+P003,Maria Garcia,1978-07-15,maria.g@example.com,(510) 555-0104,456-78-9012,MRN7755221,"15 Pine Rd, Berkeley CA 94703",""

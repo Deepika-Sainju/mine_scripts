@@ -1,0 +1,41 @@
+[project]
+name = "deid-pipeline"
+version = "0.1.0"
+description = "Member-file-driven PHI de-identification for medical charts (PDF via LightOnOCR, C-CDA) + member/claims CSVs"
+# Pinned to 3.10 because that is what the GPU boxes + uv.lock are validated on.
+# (The old philter-ucsf <3.11 constraint is gone — relaxing this is possible
+# once vllm 0.19.1 compatibility on newer Pythons is verified.)
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "faker>=20",
+    "pymupdf>=1.24",
+    "markdown>=3.5",
+    # Read member CSVs / charts / claims from the S3 file bucket (read-only).
+    "boto3>=1.28",
+    "python-dotenv>=1.0",
+    # C-CDA (HL7 XML) parsing + faithful serialization.
+    "lxml>=5.0",
+    # OCR (GPU): PDF charts are OCR'd via LightOnOCR-2-1B on vLLM.
+    "vllm==0.19.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+deid-project = "deid.cli.project:main"
+deid-csv = "deid.cli.csv_file:main"
+render-md-pdf = "deid.cli.render:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["deid"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MedicalRecord patientId="MRN-A000-000400">
+  <Patient>
+    <Name>Maria Elena Gonzalez</Name>
+    <DateOfBirth>07/22/1985</DateOfBirth>
+    <Gender>F</Gender>
+    <Contact>
+      <Email>maria.gonzalez@example.com</Email>
+      <Phone>(312) 555-0143</Phone>
+      <Address>210 Oak Avenue, Chicago, IL 60601</Address>
+    </Contact>
+    <SSN>623-44-1201</SSN>
+  </Patient>
+  <Encounter date="2025-07-16">
+    <Provider>Dr. Anita Patel</Provider>
+    <Note>Lab review. Patient SSN 623-44-1201 on file.</Note>
+  </Encounter>
+  <Diagnoses primaryCode="E1165">
+    <Diagnosis code="E1165" codeType="ICD-10-CM" rank="1">Type 2 diabetes mellitus with hyperglycemia</Diagnosis>
+    <Diagnosis code="I10" codeType="ICD-10-CM" rank="2">Essential (primary) hypertension</Diagnosis>
+  </Diagnoses>
+</MedicalRecord>

@@ -1,0 +1,20 @@
+{
+  "encounter_id": "ENC-[DATE_TIME_00005]-0042",
+  "patient": {
+    "name": "[PERSON_00024]",
+    "dob": "[DATE_TIME_00006]",
+    "ssn": "[US_SSN_00004]",
+    "mrn": "8842917",
+    "contact": {
+      "email": "[EMAIL_ADDRESS_00004]",
+      "phone": "[PHONE_NUMBER_00005]",
+      "address": "1234 [PERSON_00025], Boston, MA 02115"
+    }
+  },
+  "provider": "[PERSON_00026]",
+  "billing": {
+    "credit_card_last4": "6467",
+    "credit_card": "[CREDIT_CARD_00001]"
+  },
+  "notes": "Patient referred by [PERSON_00021]. Discussed treatment with spouse [PERSON_00027]."
+}

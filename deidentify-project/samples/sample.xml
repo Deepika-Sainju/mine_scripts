@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MedicalRecord patientId="MRN8842917">
+  <Patient>
+    <Name>John Anderson</Name>
+    <DateOfBirth>1972-04-18</DateOfBirth>
+    <Contact>
+      <Email>j.anderson@example.com</Email>
+      <Phone>(617) 555-0142</Phone>
+      <Address>1234 Elm Street, Boston, MA 02115</Address>
+    </Contact>
+    <SSN>123-45-6789</SSN>
+  </Patient>
+  <Encounter date="2024-09-12">
+    <Provider>Dr. Sarah Chen</Provider>
+    <Note>Patient discussed care with spouse Mary Anderson, reachable at (617) 555-0199.</Note>
+  </Encounter>
+</MedicalRecord>

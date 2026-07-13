@@ -1,0 +1,20 @@
+# Restores the old "Faker by default" behavior in one flag:
+#   deidentify <input> -o <out> --replacement-config samples/legacy-faker-config.yaml
+#
+# Every listed entity type is generated with Faker (fake-but-realistic values),
+# matching how the tool behaved before per-entity replacement config existed.
+# Types not listed here still fall back to template tokens like [TYPE_00001].
+
+entities:
+  PERSON:           { strategy: faker }
+  EMAIL_ADDRESS:    { strategy: faker }
+  PHONE_NUMBER:     { strategy: faker }
+  US_SSN:           { strategy: faker }
+  CREDIT_CARD:      { strategy: faker }
+  IBAN_CODE:        { strategy: faker }
+  IP_ADDRESS:       { strategy: faker }
+  LOCATION:         { strategy: faker }
+  DATE_TIME:        { strategy: faker }
+  URL:              { strategy: faker }
+  US_BANK_NUMBER:   { strategy: faker }
+  NRP:              { strategy: faker }

@@ -1,0 +1,20 @@
+{
+  "encounter_id": "2004-03-20",
+  "patient": {
+    "name": "Tanya Campos",
+    "dob": "2008-11-29",
+    "ssn": "123-45-6789",
+    "mrn": "2010-03-20",
+    "contact": {
+      "email": "pcarney@example.com",
+      "phone": "587.213.3150x983",
+      "address": "1234 Elm Street, North Micheleland, Lake Crystalbury 02115"
+    }
+  },
+  "provider": "Dr. Diana Washington",
+  "billing": {
+    "credit_card_last4": "6467",
+    "credit_card": "4532-1488-0343-6467"
+  },
+  "notes": "Patient referred by Dr. Brittany Farmer. Discussed treatment with spouse Miranda Khan."
+}

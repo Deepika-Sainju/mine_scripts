@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<MedicalRecord patientId="[MEDICAL_RECORD_NUMBER_00002]">
+  <Patient>
+    <Name>Tanya Campos</Name>
+    <DateOfBirth>2008-11-29</DateOfBirth>
+    <Contact>
+      <Email>pcarney@example.com</Email>
+      <Phone>587.213.3150x983</Phone>
+      <Address>1234 Elm Street, North Micheleland, Lake Crystalbury 02115</Address>
+    </Contact>
+    <SSN>123-45-6789</SSN>
+  </Patient>
+  <Encounter date="1980-05-08">
+    <Provider>Dr. Diana Washington</Provider>
+    <Note>Patient discussed care with spouse Miranda Khan, reachable at 401.806.5133x387.</Note>
+  </Encounter>
+</MedicalRecord>

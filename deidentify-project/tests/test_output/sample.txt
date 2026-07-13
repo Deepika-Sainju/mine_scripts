@@ -1,0 +1,18 @@
+[PERSON_00030] - [PERSON_00029]: [PERSON_00024]
+DOB: [DATE_TIME_00006]
+Address: 1234 [PERSON_00025], Boston, MA 02115
+Phone: [PHONE_NUMBER_00005]
+Email: [EMAIL_ADDRESS_00004]
+SSN: [US_SSN_00004]
+[MEDICAL_RECORD_NUMBER_00007]
+[PERSON_00028] ID: BCBS-44218-A
+
+Mr. Anderson was admitted on [DATE_TIME_00005] under the care of [PERSON_00026].
+He resides in Boston and his emergency contact is his wife, [PERSON_00027],
+reachable at [PHONE_NUMBER_00006].
+
+Credit card on file (for billing): [CREDIT_CARD_00001]
+Bank account: 000123456789
+
+Follow-up scheduled with Dr. Chen on [DATE_TIME_00007]. Records sent to
+referring physician at [EMAIL_ADDRESS_00005].

@@ -1,0 +1,20 @@
+{
+  "encounter_id": "ENC-2024-09-12-0042",
+  "patient": {
+    "name": "John Anderson",
+    "dob": "1972-04-18",
+    "ssn": "123-45-6789",
+    "mrn": "8842917",
+    "contact": {
+      "email": "j.anderson@example.com",
+      "phone": "(617) 555-0142",
+      "address": "1234 Elm Street, Boston, MA 02115"
+    }
+  },
+  "provider": "Dr. Sarah Chen",
+  "billing": {
+    "credit_card_last4": "6467",
+    "credit_card": "4532-1488-0343-6467"
+  },
+  "notes": "Patient referred by Dr. Linda Wu. Discussed treatment with spouse Mary Anderson."
+}

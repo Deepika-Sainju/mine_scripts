@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<MedicalRecord patientId="[MEDICAL_RECORD_NUMBER_00002]">
+  <Patient>
+    <Name>[PERSON_00024]</Name>
+    <DateOfBirth>[DATE_TIME_00006]</DateOfBirth>
+    <Contact>
+      <Email>[EMAIL_ADDRESS_00004]</Email>
+      <Phone>[PHONE_NUMBER_00005]</Phone>
+      <Address>1234 [PERSON_00025], Boston, MA 02115</Address>
+    </Contact>
+    <SSN>[US_SSN_00004]</SSN>
+  </Patient>
+  <Encounter date="[DATE_TIME_00005]">
+    <Provider>[PERSON_00026]</Provider>
+    <Note>Patient discussed care with spouse [PERSON_00027], reachable at [PHONE_NUMBER_00006].</Note>
+  </Encounter>
+</MedicalRecord>
