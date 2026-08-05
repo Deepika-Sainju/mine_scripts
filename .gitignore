@@ -1,3 +1,4 @@
+airflow_api/.env
 deidentify-project/venv/
 deidentify-project.zip
 deid_pipeline/uv.lock
