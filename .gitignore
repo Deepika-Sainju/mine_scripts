@@ -2,3 +2,6 @@ airflow_api/.env
 deidentify-project/venv/
 deidentify-project.zip
 deid_pipeline/uv.lock
+# PCW CCDA v3 database credentials
+PCW_CCDA_scripts/v3/.env
+copy_scripts.zip

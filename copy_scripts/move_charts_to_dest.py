@@ -19,7 +19,6 @@ import logging
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
-from urllib.parse import urlparse
 
 import boto3
 from botocore.config import Config
@@ -54,12 +53,18 @@ def _get_resource():
 
 
 def parse_s3_url(url: str) -> tuple[str, str]:
-    """Return (bucket, key) from an s3:// URL."""
-    parsed = urlparse(url)
-    if parsed.scheme != "s3":
+    """
+    Return (bucket, key) from an s3:// URL.
+
+    Deliberately does NOT use urlparse: S3 keys may legitimately contain '#'
+    and '?', which urlparse would strip as a URL fragment / query string and
+    silently truncate the key (e.g. ".../8890386/abc#1/x.pdf" -> ".../abc").
+    Keys are split on the raw string and passed to boto3 undecoded — botocore
+    percent-encodes them on the wire, so pre-encoding here would double-encode.
+    """
+    if not url.startswith("s3://"):
         raise ValueError(f"Not an S3 URL: {url!r}")
-    bucket = parsed.netloc
-    key = parsed.path.lstrip("/")
+    bucket, _, key = url[len("s3://"):].partition("/")
     if not bucket or not key:
         raise ValueError(f"Malformed S3 URL (empty bucket or key): {url!r}")
     return bucket, key

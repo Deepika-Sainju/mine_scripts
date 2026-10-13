@@ -1,0 +1,106 @@
+PCW database tables -> C-CDA  (v3)
+==================================
+
+What changed from v2
+  - Input is 5 PostgreSQL tables, not flat files. There is no -i input folder.
+  - Patient id is mrn_padded (v2 used RGN_CD_MRN_NB).
+  - Output goes to one folder per region: <out>\<RGN_CD>\<mrn_padded>.xml
+  - MBI comes from the idcrosswalk table; memberdemo.MBI is used when the crosswalk has none.
+  - Connection details and table names live in a .env file.
+  - in_exclude_list / in_delete_list are not used; every member gets a file.
+
+Two scripts:
+  flatfile_to_ccda.py   Reads the tables and writes one C-CDA XML per member.
+  render_html.py        Turns C-CDA XML files into HTML using the HL7 CDA stylesheet.
+
+
+REQUIREMENTS
+------------
+  - Python 3.9 or newer.
+  - pip install psycopg2-binary
+  - HTML rendering needs lxml:            pip install lxml
+  - HTML rendering also needs the stylesheet folder, either next to the scripts (v3\xsl\cda.xsl)
+    or the shared one a level up (PCW_CCDA_scripts\xsl\cda.xsl). Keep xsl\assets\cda_l10n.xml
+    with it. If it lives somewhere else, pass --xsl <path to cda.xsl>.
+
+
+SETTINGS (.env)
+---------------
+  Copy .env.example to .env in the v3 folder and fill it in. .env is git-ignored.
+
+  PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD   database connection (PGSSLMODE etc. also work)
+  CCDA_DEMO_TABLE        default memberdemo
+  CCDA_CROSSWALK_TABLE   default idcrosswalk
+  CCDA_ENCOUNTER_TABLE   default encounternotes
+  CCDA_DIAGNOSIS_TABLE   default visitdiagnosis
+  CCDA_LAB_TABLE         default internallab
+  CCDA_OUT_DIR           output folder (or pass -o)
+
+  Table names may include a schema: pcw.memberdemo. Names are case-sensitive and used exactly as
+  written, so PWC_test.member_demo and "PWC_test".member_demo both mean schema PWC_test (quotes
+  are optional; they are only needed when a name contains a dot). Precedence for every setting:
+  command-line flag > variable already set in Windows > .env > default.
+  The connection is opened read-only.
+
+
+TABLES AND COLUMNS
+------------------
+  Rows of all five tables are matched to a member on (RGN_CD, mrn_padded). A row missing either
+  one is skipped with a warning. Column names are not case-sensitive.
+
+  memberdemo      RGN_CD, MRN_NB, mrn_padded, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SEX,
+                  DATE_OF_BIRTH, ADDRESS_LINE1, ADDRESS_LINE2, CITY, STATE, ZIP_CD, HOME_PHONE,
+                  MBE_HOME_PHONE, MBE_CELL_PHONE, MBI   (in_exclude_list, in_delete_list ignored)
+  idcrosswalk     RGN_CD, MRN_NB, mrn_padded, MBI
+  encounternotes  RGN_CD, mrn_padded, ENCOUNTER_ID, ENCOUNTER_NAME, ENCOUNTER_DATE (fallbacks:
+                  CONTACT_DATE, EFFECTIVE_DATE_DTTM), DOCUMENT_AUTHOR, PROVIDER_NPI, PROVIDER_ID,
+                  PROVIDER_TYPE, NOTE_TYPE, CONTENT, MIME_TYPE, DOCUMENT_SIGNED_STATUS,
+                  NOT_FILETM_LOC_DTTM / NOTE_FILE_TIME_DTTM, UPD_AUT_LOCAL_DTTM / DOCUMENT_UPDATE_DATE
+  visitdiagnosis  RGN_CD, mrn_padded, ENCOUNTER_ID, Current_ICD10_LIST (comma-separated), DX_NAME
+  internallab     RGN_CD, mrn_padded, SERVICE_DATE, CPT_CODE, RESULT_NAME, LOINC_CODE,
+                  TEST_RESULT_VALUE, UNITS, REFERENCE_RANGE, RESULT_FLAG
+
+  Date/timestamp columns are used as stored (a timestamptz's offset is dropped). Text columns
+  holding dates accept the same formats as v2: YYYY-MM-DD[ hh:mm[:ss[.fff]]],
+  MM/DD/YYYY[ hh:mm[:ss]], YYYYMMDD[hhmm[ss]].
+
+
+flatfile_to_ccda.py
+-------------------
+  python flatfile_to_ccda.py [--env-file <file>] [-o <output folder>]
+                             [--demo-table T] [--crosswalk-table T] [--encounter-table T] [--diagnosis-table T] [--lab-table T]
+                             [--render-html] [--xsl <cda.xsl>]
+
+  Output: <out>\<RGN_CD>\<mrn_padded>.xml, e.g. C:\data\PCW_ccda\MA\000012345678.xml
+          with --render-html also <out>_html\<RGN_CD>\<mrn_padded>.html
+
+Examples (Windows Command Prompt):
+  python flatfile_to_ccda.py
+  python flatfile_to_ccda.py -o "C:\data\PCW_ccda_test" --lab-table pcw.internallab_test
+  python flatfile_to_ccda.py --env-file "C:\secrets\pcw_prod.env" --render-html
+  python flatfile_to_ccda.py > run.log 2>&1
+
+
+render_html.py
+--------------
+  python render_html.py <xml file or folder> [-o <html folder>] [--xsl <cda.xsl>]
+
+  A folder is searched recursively, so pointing it at the v3 output folder renders every region
+  and keeps the <RGN_CD> subfolders:
+  python render_html.py "C:\data\PCW_ccda"      -> C:\data\PCW_ccda_html\<RGN_CD>\*.html
+
+
+WHAT THE XML LOOKS LIKE
+-----------------------
+  Same as v2 (DOS sections newest first, Undated section, visits, diagnoses, results), except the
+  patient ids are: mrn_padded, the MRN_NB, and the MBI when present. MBI is taken from the
+  crosswalk; if the crosswalk has none, from memberdemo.MBI. A warning is printed when a member
+  has two different MBIs in the crosswalk, or when the crosswalk and memberdemo disagree.
+
+
+CONSOLE OUTPUT AND EXIT CODE
+----------------------------
+  - stdout: the tables read and their row counts, then one line per member written.
+  - stderr: "WARNING: ..." lines. A warning never stops the run. The password is never printed.
+  - Exit code 0 = success, 1 = at least one HTML file failed to render. A missing setting,
+    psycopg2/lxml, stylesheet, or a failed connection stops the run before any file is written.

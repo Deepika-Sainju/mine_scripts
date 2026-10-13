@@ -1,0 +1,137 @@
+PCW flat files -> C-CDA  (v2)
+=============================
+
+Two scripts:
+  flatfile_to_ccda.py   Reads the PCW flat files and writes one C-CDA XML per member.
+  render_html.py        Turns C-CDA XML files into HTML using the HL7 CDA stylesheet.
+                        You can run it by itself, or let flatfile_to_ccda.py --render-html call it.
+
+
+REQUIREMENTS
+------------
+  - Python 3.9 or newer.
+  - flatfile_to_ccda.py uses only the standard library.
+  - HTML rendering needs lxml:            pip install lxml
+  - HTML rendering also needs the stylesheet folder next to the scripts:
+        v2\xsl\cda.xsl
+        v2\xsl\assets\cda_l10n.xml        (cda.xsl reads its labels from this file)
+    Keep the xsl folder intact. If it lives somewhere else, pass --xsl <path to cda.xsl>.
+
+
+INPUT FILES
+-----------
+Put all the files in one folder. The script finds each file by its name prefix, so a group of
+files can be split across several files (for example pwc_out_retro_ma_internallab.txt and
+pwc_out_retro_ma_internallab2.csv). If the same row appears in two files, it is used only once.
+
+  File prefix                                  Used for
+  -------------------------------------------  ---------------------------------------------
+  pwc_out_retro_ma_memberdemo*                 Patient demographics (recordTarget)
+  pwc_out_retro_ma_idcrosswalk*                MBI (added as an extra patient id)
+  pwc_out_retro_ma_clarityepicencounternotes*  Encounters + Notes (one row per note)
+  pwc_out_retro_ma_clarityvisitdiagnosis*      Diagnoses (ICD-10) -> Problems
+  pwc_out_retro_ma_internallab*                Lab results -> Results
+
+  - Files can be .txt or .csv. The delimiter comes from each file's header line (pipe, comma or
+    tab), not from the file extension.
+  - A value that contains the delimiter must be in double quotes (for example a DX_NAME with
+    commas in a CSV file).
+  - Every file must have RGN_CD and MRN_NB columns. Rows that are missing either one are skipped.
+  - Column names are not case-sensitive. Encoding can be UTF-8 (with or without BOM) or cp1252.
+
+Columns read (all are optional apart from RGN_CD and MRN_NB):
+  memberdemo   FIRST_NAME, MIDDLE_NAME, LAST_NAME, SEX, DATE_OF_BIRTH, ADDRESS_LINE1,
+               ADDRESS_LINE2, CITY, STATE, ZIP_CD, HOME_PHONE, MBE_HOME_PHONE, MBE_CELL_PHONE
+  idcrosswalk  MBI
+  encounter    ENCOUNTER_ID, ENCOUNTER_NAME, ENCOUNTER_DATE (fallbacks: CONTACT_DATE,
+               EFFECTIVE_DATE_DTTM), DOCUMENT_AUTHOR, PROVIDER_NPI, PROVIDER_ID, PROVIDER_TYPE,
+               NOTE_TYPE, CONTENT, MIME_TYPE, DOCUMENT_SIGNED_STATUS,
+               NOT_FILETM_LOC_DTTM / NOTE_FILE_TIME_DTTM, UPD_AUT_LOCAL_DTTM / DOCUMENT_UPDATE_DATE
+  diagnosis    ENCOUNTER_ID, CURRENT_ICD10_LIST (comma-separated), DX_NAME
+  internallab  SERVICE_DATE, CPT_CODE, RESULT_NAME, LOINC_CODE, TEST_RESULT_VALUE, UNITS,
+               REFERENCE_RANGE, RESULT_FLAG
+
+Accepted date formats: YYYY-MM-DD[ hh:mm[:ss[.fff]]], YYYY-MM-DDThh:mm[:ss[.fff]],
+MM/DD/YYYY[ hh:mm[:ss]], YYYYMMDD[hhmm[ss]]. A date in any other format triggers a warning. The
+value still appears in the narrative as written, and the item goes into the "Undated" section.
+
+
+flatfile_to_ccda.py
+-------------------
+  python flatfile_to_ccda.py -i <input folder> [-o <output folder>] [--render-html] [--xsl <cda.xsl>]
+
+  -i, --input-dir   Folder that holds the .txt/.csv files. (required)
+  -o, --out-dir     Folder for the XML output. Default: <input-dir>\ccda_output
+  --render-html     Also render each XML to HTML, into <out-dir>_html. (needs lxml + xsl folder)
+  --xsl             Stylesheet to use with --render-html. Default: xsl\cda.xsl next to the script.
+
+  Output: <out-dir>\<RGN_CD>_<MRN_NB>.xml, e.g. ccda_output\MA_12345678.xml
+
+Examples (Windows Command Prompt; quote any path that has spaces):
+  python flatfile_to_ccda.py -i "C:\Users\Deepika.Sainju\Documents\reports\PCW"
+      -> C:\Users\Deepika.Sainju\Documents\reports\PCW\ccda_output\<member id>.xml
+
+  python flatfile_to_ccda.py -i "C:\data\PCW" -o "C:\data\PCW_ccda"
+
+  python flatfile_to_ccda.py -i "C:\data\PCW" -o "C:\data\PCW_ccda" --render-html
+      -> XML in C:\data\PCW_ccda, HTML in C:\data\PCW_ccda_html
+
+  To keep a log of the run:
+  python flatfile_to_ccda.py -i "C:\data\PCW" > run.log 2>&1
+
+  A path that ends in a backslash inside quotes ("C:\data\PCW\") also works.
+
+
+render_html.py
+--------------
+  python render_html.py <xml file or folder> [-o <html folder>] [--xsl <cda.xsl>]
+
+  input             A single C-CDA .xml file, or a folder of them (renders every *.xml in it).
+  -o, --out-dir     Folder for the HTML output. Default: <input folder>_html
+  --xsl             Stylesheet to use. Default: xsl\cda.xsl next to the script.
+
+  Output: <html folder>\<file name>.html
+
+Examples:
+  python render_html.py "C:\data\PCW\ccda_output"
+      -> C:\data\PCW\ccda_output_html\*.html
+  python render_html.py "C:\data\PCW\ccda_output" -o "C:\data\html"
+  python render_html.py "C:\data\PCW\ccda_output\MA_12345678.xml"
+      -> C:\data\PCW\ccda_output_html\MA_12345678.html
+
+  If one file fails to render, the error is reported and the remaining files are still rendered.
+
+
+WHAT THE XML LOOKS LIKE
+-----------------------
+  - One document per member, with member id RGN_CD_MRN_NB. The patient ids are the member id,
+    the MRN, and the MBI when the crosswalk has one.
+  - The body has one top-level section per date of service (DOS), newest first, titled
+    "DOS MM/DD/YYYY - <encounter> - <provider>". Inside each DOS section are the standard C-CDA
+    sections that have data for that day: Encounters, Problems, Notes, Results.
+  - A final "Undated" section holds anything that has no usable date.
+  - Visits: note rows with the same ENCOUNTER_ID make up one visit. Rows without an ENCOUNTER_ID
+    are grouped by date + ENCOUNTER_NAME. Every distinct note author is listed as a performer.
+  - Diagnoses: a diagnosis row has no date of its own, so it takes the date of the dated
+    encounter with the same ENCOUNTER_ID. If no encounter matches, it goes to Undated with a
+    warning. Each ICD-10 code becomes a coded problem. The full DX_NAME text is kept as written in
+    the narrative, because it can't be split on commas reliably.
+  - Results: lab rows are grouped into one panel per (SERVICE_DATE, CPT_CODE).
+  - HTML note content (MIME_TYPE text/html) is converted to plain text with line breaks.
+  - Document and entry ids are fixed UUIDs, so rerunning on the same data produces the same ids.
+    (The document effectiveTime is the run time, so it changes on every run.)
+  - The organization OIDs for member id, MRN, provider id and encounter id are placeholders
+    (2.16.840.1.113883.19.5.x) at the top of flatfile_to_ccda.py. Replace them if you have the
+    real assigning-authority OIDs.
+
+
+CONSOLE OUTPUT AND EXIT CODE
+----------------------------
+  - stdout: the files read and their row counts, then one line per member written, with counts
+    (dos, visits, notes, dx_rows_dated, dx_rows_undated, labs, undated_visits).
+  - stderr: "WARNING: ..." lines, for example a bad date, a row with the wrong number of fields,
+    a diagnosis that matches no encounter, a member with no demographics row, or more than one
+    MBI for a member. A warning never stops the run.
+  - Exit code 0 means success. Exit code 1 means at least one HTML file failed to render.
+    A missing input folder, missing lxml or missing stylesheet stops the run before any files
+    are written, with exit code 2.
